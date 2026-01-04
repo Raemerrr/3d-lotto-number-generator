@@ -3,15 +3,32 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>로또 번호 생성기</title>
     <!-- SEO Meta Tags -->
     <meta name="description"
-        content="프리미엄 3D 로또 6/45 번호 생성기. 실제 물리 엔진으로 추출하는 행운의 번호를 만나보세요. 3D Lotto 6/45 premium number generator with realistic physics.">
+        content="프리미엄 로또 6/45 번호 생성기. 실제 물리 엔진으로 추출하는 행운의 번호를 만나보세요. Lotto 6/45 premium number generator with realistic physics.">
     <meta name="keywords"
-        content="로또, 로또번호, 로또 번호, 로또 번호 생성, 로또 번호 추출, 로또 6/45, 3D 로또, Lotto 6/45, Lotto Generator, Three.js, Cannon-es">
+        content="로또, 로또번호, 로또 번호, 로또 번호 생성, 로또 번호 추출, 로또 6/45, Lotto 6/45, Lotto Generator, Three.js, Cannon-es">
     <meta property="og:title" content="로또 번호 생성기">
-    <meta property="og:description" content="실제 물리 엔진으로 추출하는 3D 로또 번호 생성기">
+    <meta property="og:description" content="실제 물리 엔진으로 추출하는 행운의 번호, 로또 번호 생성기">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "로또 번호 생성기",
+      "url": "https://raemerrr.github.io/3d-lotto-number-generator/",
+      "description": "실제 물리 엔진을 이용한 로또 6/45 번호 생성 도구입니다. 행운의 숫자를 지금 확인해보세요.",
+      "applicationCategory": "EducationalApplication",
+      "operatingSystem": "All",
+      "browserRequirements": "Requires JavaScript and WebGL",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "KRW"
+      }
+    }
+    </script>
     <meta property="og:image" content="assets/og_image.png">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://raemerrr.github.io/3d-lotto-number-generator/">
@@ -38,7 +55,34 @@
                 <button id="reset-button" class="btn ghost">초기화</button>
             </div>
         </main>
+
+        <footer>
+            <p>&copy; 2026 RM. All Rights Reserved.</p>
+        </footer>
     </div>
+
+    <!-- SEO Content Section (Visible but subtle) -->
+    <section class="seo-content-section">
+        <div class="seo-inner">
+            <article>
+                <h2>무료 로또 번호 생성기 가이드</h2>
+                <p>
+                    이 서비스는 실제 물리 엔진(Cannon-es)을 기반으로 한 <strong>로또 번호 생성기</strong>입니다.
+                    단순한 난수 발생 방식이 아닌, 가상의 3D 공간에서 45개의 공이 실시간으로 섞이고 추출되는 과정을 통해
+                    나만의 행운의 번호를 만날 수 있습니다.
+                </p>
+                <p>
+                    <strong>로또 6/45</strong> 당첨의 설렘을 3D 시뮬레이션으로 미리 경험해보세요.
+                    추출된 번호는 기록 섹션에서 다시 확인할 수 있으며, 매주 새로운 당첨 기회를 위해 행운의 숫자를 생성해보시기 바랍니다.
+                </p>
+                <ul>
+                    <li>실제 물리 시뮬레이션 기반 번호 추출</li>
+                    <li>모바일 환경 최적화 및 간결한 UI</li>
+                    <li>사용자 편의를 위한 초기화 및 다중 세트 생성 기능</li>
+                </ul>
+            </article>
+        </div>
+    </section>
 
     <!-- Winner Selection Modal (Hidden by default) -->
     <div id="winner-modal" class="modal hidden">
@@ -66,9 +110,7 @@
     </div>
 
 
-    <footer>
-        <p>&copy; 2026 RM. All Rights Reserved.</p>
-    </footer>
+
 
 
     <!-- Scripts -->

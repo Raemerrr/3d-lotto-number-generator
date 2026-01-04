@@ -22,8 +22,10 @@ body {
     font-family: 'NanumHuman', sans-serif;
     background: var(--bg-gradient);
     color: var(--text-main);
-    overflow: hidden;
-    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto; /* Allow scrolling for SEO content */
+    min-height: 100vh;
+    min-height: 100svh;
 }
 
 #scene-container {
@@ -32,6 +34,7 @@ body {
     left: 0;
     width: 100vw;
     height: 100vh;
+    height: 100svh;
     z-index: 0;
 }
 
@@ -40,6 +43,7 @@ body {
     z-index: 10;
     padding: 2rem 4rem;
     height: 100vh;
+    height: 100svh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -84,6 +88,8 @@ header h1 {
     display: flex;
     flex-direction: column;
     gap: 2rem;
+    margin-top: auto; /* Push to bottom naturally */
+    margin-bottom: 1rem;
 }
 
 .glass-panel {
@@ -424,11 +430,9 @@ header h1 {
 }
 
 footer {
-    position: absolute;
-    bottom: 2rem;
-    right: 2rem;
     color: var(--text-dim);
     font-size: 0.8rem;
+    text-align: right;
 }
 
 /* Donation Panel (KakaoTalk) */
@@ -530,10 +534,11 @@ footer {
 
 @media (max-width: 768px) {
     .glass-container {
-        padding: 1rem 1rem calc(2rem + env(safe-area-inset-bottom, 20px));
+        padding: 1.5rem 1rem calc(4rem + env(safe-area-inset-bottom, 20px));
         align-items: center;
         text-align: center;
         height: 100vh;
+        height: 100svh;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -546,7 +551,8 @@ footer {
     .sidebar {
         width: 100%;
         gap: 1rem;
-        margin-bottom: 2rem;
+        margin-top: auto;
+        margin-bottom: 0.5rem;
     }
 
     .glass-panel {
@@ -579,10 +585,9 @@ footer {
     }
 
     footer {
-        bottom: 1rem;
-        right: 0;
         width: 100%;
         text-align: center;
+        margin-top: 2rem;
     }
 
     .donation-panel {
@@ -601,3 +606,53 @@ footer {
         transform: translateY(5px);
     }
 }
+
+/* SEO Content Section */
+.seo-content-section {
+    position: relative;
+    z-index: 10;
+    padding: 4rem 2rem;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-top: 1px solid var(--glass-border);
+    color: var(--text-dim);
+}
+
+.seo-inner {
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.8;
+}
+
+.seo-inner h2 {
+    color: var(--primary);
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.seo-inner p {
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+}
+
+.seo-inner ul {
+    margin-top: 1.5rem;
+    list-style: disc;
+    padding-left: 1.5rem;
+}
+
+.seo-inner li {
+    margin-bottom: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .seo-content-section {
+        padding: 3rem 1.5rem;
+    }
+    
+    .seo-inner h2 {
+        font-size: 1.25rem;
+    }
+}
+
