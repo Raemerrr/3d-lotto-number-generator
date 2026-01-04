@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>3D Lotto 6/45 | Premium Number Generator</title>
+    <!-- SEO Meta Tags -->
+    <meta name="description"
+        content="프리미엄 3D 로또 6/45 번호 생성기. 실제 물리 엔진으로 추출하는 행운의 번호를 만나보세요. 3D Lotto 6/45 premium number generator with realistic physics.">
+    <meta name="keywords"
+        content="로또, 로또번호, 로또 번호, 로또 번호 생성, 로또 번호 추출, 로또 6/45, 3D 로또, Lotto 6/45, Lotto Generator, Three.js, Cannon-es">
+    <meta property="og:title" content="3D Lotto 6/45 | Premium Number Generator">
+    <meta property="og:description" content="실제 물리 엔진으로 추출하는 3D 로또 번호 생성기">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://raemerrr.github.io/3d-roulette-picker/">
+    <!-- Google Fonts -->
+    <link href="https://hangeul.pstatic.net/hangeul_static/css/NanumHuman.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- Three.js and Cannon.js는 하단 importmap을 통해 로드됩니다. -->
+</head>
+
+<body>
+    <div id="scene-container"></div>
+
+    <div class="glass-container">
+        <header>
+            <h1>Lotto 6/45</h1>
+            <p class="subtitle">PREMIUM GENERATOR</p>
+        </header>
+
+        <main class="sidebar">
+            <div class="controls">
+                <div class="auto-draw-wrapper"
+                    style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px; cursor: pointer; color: var(--primary);">
+                    <input type="checkbox" id="auto-draw" checked
+                        style="width: 20px; height: 20px; accent-color: var(--primary);">
+                    <label for="auto-draw" style="font-weight: 600; font-size: 0.9rem; letter-spacing: 1px;">AUTO DRAW
+                        NUMBERS</label>
+                </div>
+                <button id="spin-button" class="btn primary">START BLOWING</button>
+                <button id="draw-button" class="btn primary hidden">DRAW NUMBERS</button>
+                <button id="reset-button" class="btn ghost">Reset All</button>
+            </div>
+        </main>
+    </div>
+
+    <!-- Winner Selection Modal (Hidden by default) -->
+    <div id="winner-modal" class="modal hidden">
+        <div class="modal-content glass-panel">
+            <h2 id="winner-title">PICKING NUMBERS...</h2>
+            <div id="pick-sequence" class="pick-sequence">
+                <!-- Balls will be injected here -->
+            </div>
+            <button id="close-modal" class="btn primary hidden">Continue</button>
+        </div>
+    </div>
+
+    <!-- Full Results Overlay (Hidden by default) -->
+    <div id="results-overlay" class="results-page hidden">
+        <div class="glass-panel-heavy">
+            <button id="close-results" class="btn-close">&times;</button>
+            <h2>Lotto 6/45 Results</h2>
+            <div id="results-container" class="results-grid">
+                <!-- Generated sets will appear here -->
+            </div>
+            <div style="margin-top: 40px;">
+                <button id="restart-gen" class="btn primary">New Generation</button>
+            </div>
+        </div>
+    </div>
+
+
+    <footer>
+        <p>&copy; 2026 Raemerrr. All Rights Reserved.</p>
+    </footer>
+
+
+    <!-- Scripts -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/",
+                "cannon-es": "https://unpkg.com/cannon-es@0.20.0/dist/cannon-es.js"
+            }
+        }
+    </script>
+    <script type="module" src="main.js"></script>
+    <script type="module" src="coffee.js"></script>
+</body>
+
+</html>
