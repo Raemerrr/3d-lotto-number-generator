@@ -534,7 +534,7 @@ footer {
 
 @media (max-width: 768px) {
     .glass-container {
-        padding: 1.5rem 1rem calc(4rem + env(safe-area-inset-bottom, 20px));
+        padding: 1.5rem 1rem calc(1.5rem + env(safe-area-inset-bottom, 20px));
         align-items: center;
         text-align: center;
         height: 100vh;
@@ -587,7 +587,7 @@ footer {
     footer {
         width: 100%;
         text-align: center;
-        margin-top: 2rem;
+        margin-top: 1rem;
     }
 
     .donation-panel {
