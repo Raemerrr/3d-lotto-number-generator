@@ -18,7 +18,12 @@ export function initDonation() {
         </div>
     `;
 
-    document.body.appendChild(donationContainer);
+    const header = document.querySelector('header');
+    if (header) {
+        header.appendChild(donationContainer);
+    } else {
+        document.body.appendChild(donationContainer);
+    }
 
     // Only the QR code area is clickable
     const qrTarget = document.getElementById('qr-click-target');
