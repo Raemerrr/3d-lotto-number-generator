@@ -421,6 +421,104 @@ footer {
     font-size: 0.8rem;
 }
 
+/* Donation Panel (KakaoTalk) */
+.donation-panel {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 1000;
+    width: 160px;
+    height: 44px; /* Matches badge height + padding */
+    padding: 0.8rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+    cursor: pointer;
+    transition: var(--transition);
+    pointer-events: auto;
+    overflow: hidden;
+}
+
+.glass-panel-compact {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.donation-badge {
+    background: #FEE500; /* Kakao Yellow */
+    color: #3C1E1E; /* Kakao Dark Brown */
+    padding: 2px 10px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.donation-text {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-dim);
+    letter-spacing: 0.5px;
+}
+
+.qr-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #fff;
+    padding: 5px;
+    transition: var(--transition);
+}
+
+.qr-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: var(--transition);
+}
+
+.qr-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: var(--transition);
+}
+
+.qr-overlay span {
+    font-size: 0.7rem;
+    color: #fff;
+    font-weight: 600;
+    text-align: center;
+}
+
+.donation-panel:hover {
+    width: 200px;
+    height: 280px; /* Increased to comfortably show QR */
+    transform: translateY(-5px);
+    border-color: #FEE500;
+    box-shadow: 0 15px 40px rgba(254, 229, 0, 0.2);
+}
+
+.donation-panel:hover .qr-overlay {
+    opacity: 1;
+}
+
 @media (max-width: 768px) {
     .glass-container {
         padding: 1rem;
@@ -467,5 +565,21 @@ footer {
         right: 0;
         width: 100%;
         text-align: center;
+    }
+
+    .donation-panel {
+        bottom: 1.5rem;
+        right: 1.5rem;
+        top: auto;
+        left: auto;
+        width: 150px;
+        height: 42px;
+        padding: 0.6rem;
+    }
+    
+    .donation-panel:hover,
+    .donation-panel:active {
+        width: 190px;
+        height: 260px;
     }
 }
