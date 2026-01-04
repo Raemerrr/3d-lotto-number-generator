@@ -24,17 +24,17 @@ class Lotto645 {
         this.trappedBall = null; // Ball in buffer zone
         this.airflowIntensity = 0;
         this.isTurbo = false;
+        this.activeTimers = new Set();
 
         this.lang = navigator.language.startsWith('ko') ? 'ko' : 'en';
         this.i18n = {
             ko: {
                 start: '추출 시작',
-                stop: '폭풍 중지',
+                stop: '추출 중지',
                 drawing: '번호 추출 중...',
                 selected: '번 당첨!',
                 jackpot: '추출 완료!',
                 reset: '초기화',
-                auto: '자동 번호 추출',
                 results: '로또 6/45 결과',
                 newGen: '새로 뽑기'
             },
@@ -45,7 +45,6 @@ class Lotto645 {
                 selected: ' SELECTED!',
                 jackpot: 'DRAW COMPLETE!',
                 reset: 'Reset All',
-                auto: 'AUTO DRAW NUMBERS',
                 results: 'Lotto 6/45 Results',
                 newGen: 'New Generation'
             }
@@ -61,6 +60,21 @@ class Lotto645 {
         this.setupUI();
         this.animate();
         this.handleResize();
+    }
+
+    // Helper to manage timeouts and prevent ghosts after reset
+    delay(fn, ms) {
+        const id = setTimeout(() => {
+            this.activeTimers.delete(id);
+            fn();
+        }, ms);
+        this.activeTimers.add(id);
+        return id;
+    }
+
+    clearAllTimers() {
+        this.activeTimers.forEach(id => clearTimeout(id));
+        this.activeTimers.clear();
     }
 
     initScene() {
@@ -282,21 +296,18 @@ class Lotto645 {
         document.getElementById('spin-button').onclick = () => {
             if (this.state === 'IDLE') {
                 this.state = 'STORM';
-                document.getElementById('spin-button').innerText = 'STOP STORM';
-                document.getElementById('draw-button').classList.remove('hidden');
+                this.updateUILabels();
                 
-                // Auto-start drawing if checked
-                if (document.getElementById('auto-draw').checked) {
-                    setTimeout(() => this.openGate(), 1500);
-                }
+                // Automatic start sequence
+                this.delay(() => {
+                    if (this.state === 'STORM') this.openGate();
+                }, 1500);
             } else {
                 this.reset();
             }
         };
-        document.getElementById('draw-button').onclick = () => this.openGate();
 
         document.getElementById('reset-button').onclick = () => this.reset();
-        // Removed update-wheel (Prepare Machine) listener
         document.getElementById('restart-gen').onclick = () => {
              document.getElementById('results-overlay').classList.add('hidden');
              this.reset();
@@ -311,14 +322,13 @@ class Lotto645 {
     updateUILabels() {
         const t = this.i18n[this.lang];
         document.getElementById('spin-button').innerText = (this.state === 'IDLE') ? t.start : t.stop;
-        document.querySelector('label[for="auto-draw"]').innerText = t.auto;
         document.getElementById('reset-button').innerText = t.reset;
         document.querySelector('#results-overlay h2').innerText = t.results;
         document.getElementById('restart-gen').innerText = t.newGen;
     }
 
     openGate() {
-        if (this.capturedNumbers.length < 6 && !this.activeTargetBall && !this.trappedBall && !this.isGateOpen && !this.isGate2Open) {
+        if (this.state === 'STORM' && this.capturedNumbers.length < 6 && !this.activeTargetBall && !this.trappedBall && !this.isGateOpen && !this.isGate2Open) {
             this.isGateOpen = true;
             this.showMessage(this.i18n[this.lang].drawing);
         }
@@ -326,6 +336,7 @@ class Lotto645 {
 
     reset() {
         this.state = 'IDLE';
+        this.clearAllTimers();
         this.capturedNumbers = [];
         this.isGateOpen = false;
         this.isGate2Open = false;
@@ -338,9 +349,7 @@ class Lotto645 {
         });
         this.updateHUD(); // Clear UI list
         document.getElementById('results-container').innerHTML = ''; // Clear results page
-        document.getElementById('spin-button').classList.remove('hidden');
-        document.getElementById('spin-button').innerText = 'START BLOWING';
-        document.getElementById('draw-button').classList.add('hidden');
+        this.updateUILabels();
         document.getElementById('winner-modal').classList.add('hidden');
     }
 
@@ -474,7 +483,7 @@ class Lotto645 {
                     this.trappedBall = null;
                     this.isGate2Open = false;
                     b.railProgress = 0;
-                    const msg = this.lang === 'ko' ? `번호 #${b.id} ${this.i18n.ko.selected}` : `NUMBER #${b.id}${this.i18n.en.selected}`;
+                    const msg = this.lang === 'ko' ? `${b.id}${this.i18n.ko.selected}` : `NUMBER #${b.id}${this.i18n.en.selected}`;
                     this.showMessage(msg);
                 }
                 return;
@@ -488,7 +497,7 @@ class Lotto645 {
                     this.trappedBall = b;
                     this.isGateOpen = false; 
                     
-                    setTimeout(() => {
+                    this.delay(() => {
                         if (this.state === 'STORM') this.isGate2Open = true;
                     }, 800);
                 }
@@ -582,10 +591,6 @@ class Lotto645 {
         });
     }
 
-    onBallSelected(ball) {
-        // Obsolete with dual-gate logic handled in applyPhysics
-    }
-
     finalCapture(ball) {
         ball.extracted = true;
         this.capturedNumbers.push(ball.id);
@@ -612,14 +617,11 @@ class Lotto645 {
         this.activeTargetBall = null; // Clear state AFTER stacking
 
         if (this.capturedNumbers.length < 6) {
-            const isAuto = document.getElementById('auto-draw').checked;
-            const delay = isAuto ? 1000 : 3000;
-            
-            setTimeout(() => {
+            this.delay(() => {
                 if (this.state === 'STORM' && this.capturedNumbers.length < 6 && !this.activeTargetBall) {
                     this.openGate();
                 }
-            }, delay);
+            }, 1000); // Always 1s delay for sequential auto-draw
         } else {
             this.finish();
         }
@@ -637,7 +639,8 @@ class Lotto645 {
         this.state = 'IDLE';
         this.showMessage(this.i18n[this.lang].jackpot);
         this.updateUILabels(); // Update button label back to "Start"
-        setTimeout(() => {
+        this.delay(() => {
+            if (this.state !== 'IDLE') return; // Double check state
             const overlay = document.getElementById('results-overlay');
             const container = document.getElementById('results-container');
             container.innerHTML = `
