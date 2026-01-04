@@ -51,6 +51,15 @@ body {
     pointer-events: auto;
 }
 
+header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    position: relative;
+    z-index: 1001; /* Ensure it stays above other elements when expanded */
+}
+
 header h1 {
     font-size: 4rem;
     letter-spacing: -2px;
@@ -58,7 +67,7 @@ header h1 {
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0;
 }
 
 .subtitle {
@@ -67,6 +76,7 @@ header h1 {
     font-size: 0.9rem;
     text-transform: uppercase;
     text-shadow: 0 0 15px var(--primary-glow);
+    margin-bottom: 1rem;
 }
 
 .sidebar {
@@ -423,9 +433,8 @@ footer {
 
 /* Donation Panel (KakaoTalk) */
 .donation-panel {
-    position: fixed;
-    bottom: 2rem;
-    right: 2rem;
+    position: relative;
+    /* Removed top/right fixed positioning */
     z-index: 1000;
     width: 160px;
     height: 44px; /* Matches badge height + padding */
@@ -510,7 +519,7 @@ footer {
 .donation-panel:hover {
     width: 200px;
     height: 280px; /* Increased to comfortably show QR */
-    transform: translateY(-5px);
+    transform: translateY(5px);
     border-color: #FEE500;
     box-shadow: 0 15px 40px rgba(254, 229, 0, 0.2);
 }
@@ -521,9 +530,13 @@ footer {
 
 @media (max-width: 768px) {
     .glass-container {
-        padding: 1rem;
+        padding: 1rem 1rem calc(2rem + env(safe-area-inset-bottom, 20px));
         align-items: center;
         text-align: center;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
     }
     
     header h1 {
@@ -533,7 +546,7 @@ footer {
     .sidebar {
         width: 100%;
         gap: 1rem;
-        margin-bottom: 5vh;
+        margin-bottom: 2rem;
     }
 
     .glass-panel {
@@ -560,6 +573,11 @@ footer {
         font-size: 1.1rem;
     }
     
+    header {
+        align-items: center;
+        width: 100%;
+    }
+
     footer {
         bottom: 1rem;
         right: 0;
@@ -568,18 +586,18 @@ footer {
     }
 
     .donation-panel {
-        bottom: 1.5rem;
-        right: 1.5rem;
-        top: auto;
-        left: auto;
-        width: 150px;
-        height: 42px;
-        padding: 0.6rem;
+        top: 0;
+        right: 0;
+        margin: 0.5rem auto 0;
+        width: 140px;
+        height: 38px;
+        padding: 0.5rem;
     }
     
     .donation-panel:hover,
     .donation-panel:active {
-        width: 190px;
-        height: 260px;
+        width: 180px;
+        height: 250px;
+        transform: translateY(5px);
     }
 }
