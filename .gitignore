@@ -17,3 +17,6 @@ build/
 # Backups
 *.bak
 *.tmp
+
+# Local QA captures
+artifacts/
