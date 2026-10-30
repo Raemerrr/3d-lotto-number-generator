@@ -16,6 +16,14 @@ for (const lang of Object.keys(languages)) {
     html.includes(`<link rel="canonical" href="${new URL(lang + "/", site)}">`),
   );
   assert.equal([...html.matchAll(/rel="alternate" hreflang=/g)].length, 7);
+  const adMode = process.env.ADS_MODE || "off";
+  assert.equal(html.includes('id="guide-ad"'), adMode !== "off");
+  assert.equal(html.includes('data-ad-slot="7285522592"'), adMode === "live");
+  if (adMode !== "off") {
+    assert.ok(html.indexOf('id="guide"') < html.indexOf('id="guide-ad"'));
+    assert.ok(html.indexOf('id="guide-ad"') < html.indexOf('class="faq-section"'));
+  }
+  if (adMode === "live") assert.ok(html.includes('https://myadcenter.google.com/'));
   assert.ok(html.includes('id="game"'));
   assert.ok(html.includes('id="batch-count"'));
   const data = JSON.parse(
@@ -36,3 +44,9 @@ assert.equal([...sitemap.matchAll(/<loc>/g)].length, 7);
 console.log(
   "Verified localized HTML, metadata, structured data, local links and sitemap.",
 );
+
+for (const file of ["dist/index.html", "dist/404.html"]) {
+  const html = await readFile(file, "utf8");
+  assert.ok(!html.includes('id="guide-ad"'));
+  assert.ok(!html.includes('data-ad-slot'));
+}

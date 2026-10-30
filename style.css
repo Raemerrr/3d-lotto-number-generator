@@ -985,3 +985,9 @@ h1 {
 .batch-picker > span:empty {
   display: none;
 }
+
+/* Reserve space without clipping Google's responsive creative or overlaying controls. */
+.guide-ad { width: 100%; margin: 3rem 0; padding: 1.5rem 0; border-block: 1px solid #d5dcd5; }
+.ad-label { margin: 0 0 1rem; color: #50645a; font-size: .75rem; text-align: center; }
+.guide-ad .adsbygoogle { width: 100%; min-height: 280px; }
+.ad-preview { min-height: 280px; display: grid; place-items: center; padding: 1rem; background: #edf0e9; color: #50645a; text-align: center; }

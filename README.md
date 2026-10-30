@@ -76,3 +76,24 @@ MIT License · RM
 `python3 scripts/check-live.py` (Python 3 및 curl 필요). 공개 HTTP/메타데이터를 검사하고 `artifacts/live-audit.json`에 결과를 저장합니다. 계정 내부 색인/광고 승인 상태는 확인하지 않습니다.
 
 [AdSense 준비도 및 기존 블로그 비교](ADSENSE_READINESS_REVIEW.md)에서 구현, 운영 반영, 사용자 선행 항목을 구분합니다.
+
+## 수동 광고 / Manual display ad
+
+광고 단위 `lotto_guide_bottom`: publisher `ca-pub-4576154921851098`, slot `7285522592`.
+사용 가이드 뒤·FAQ 앞에 한 개만 둡니다. 루트 홈페이지 저장소에는 광고 코드를 추가하지 않습니다. 언어 자동 이동용 앱 진입 페이지와 404에도 광고 영역을 생성하지 않습니다.
+
+- 기본 `ADS_MODE=off`: 광고 영역 및 광고 네트워크 요청 없음.
+- `ADS_MODE=preview npm run build`: 실제 요청 없는 미리보기 자리 표시. 로컬 화면 점검용.
+- `ADS_MODE=live ADS_LIVE_READY=true npm run build`: 운영 URL에서만 공통 스크립트와 광고 요청. 로컬 호스트/다른 도메인에서는 요청하지 않음.
+- 광고 요청은 문서마다 한 번. 추첨·재시작·세트 변경에 따라 갱신하지 않습니다. 차단/로드 실패가 추첨을 중단시키지 않습니다.
+- 최소 높이로 공간을 예약하되 반응형 광고를 고정 높이로 잘라내지 않습니다. 실제 광고 크기에 따른 CLS는 운영에서 재확인해야 합니다.
+
+### 운영 활성화 전
+
+1. AdSense 사이트 상태 Ready 확인 및 자동 광고 끄기(수동 슬롯 외의 자동 배치를 방지).
+2. AdSense 개인정보 보호 및 메시지에서 대상 지역에 필요한 인증 CMP/동의 메시지를 설정·게시하고 테스트. 이 코드의 `ADS_LIVE_READY`는 동의 도구가 아니라 운영 준비 확인용 빌드 잠금입니다.
+3. 광고 파트너 목록, 쿠키/개인정보 고지, 선택 해제 방법을 실제 계정 설정과 대조. live 빌드에서는 6개 언어 개인정보 안내가 광고용으로 바뀝니다. 기존 루트 홈페이지에는 광고를 실행하지 않습니다.
+4. 저장소 Actions 변수 `ADS_MODE=live`, `ADS_LIVE_READY=true` 설정 후 배포 workflow 실행. PR 빌드는 항상 off입니다. 기본값은 off이므로 코드 병합만으로 광고가 켜지지 않습니다.
+5. 실제 모바일·데스크톱에서 슬롯 위치, 동의 동작, 가림/오클릭/레이아웃 이동 확인. 테스트 중 자기 광고를 클릭하지 않습니다.
+
+참고: https://support.google.com/adsense/answer/9183362 , https://support.google.com/adsense/answer/1348695

@@ -1,3 +1,4 @@
+import { initializeAd } from "./src/ads.js";
 import { translations, languages, resolveLocale } from "./src/i18n.js";
 import { DrawSession } from "./src/draw.js";
 import { BatchDraw } from "./src/batch.js";
@@ -408,3 +409,5 @@ $("game").addEventListener("change", () => {
 });
 applyGameDetails();
 initialize();
+
+initializeAd();
