@@ -750,3 +750,37 @@ export function formatSetCount(lang, count) {
         : translations[lang].setUnit;
   return `${count} ${unit}`;
 }
+
+// Common guidance remains independent of the chosen lottery and is statically rendered.
+const practicalGuides = {
+  ko: [
+    "연속 추첨에서 1~5세트를 선택할 수 있습니다. 각 세트는 공을 다시 섞어 독립적으로 추첨합니다. 최대 5세트는 이 도구의 편의 설정이며 복권 구매 한도를 뜻하지 않습니다.",
+    "완료된 세트는 개별 복사하거나 이번 결과 전체 복사로 한 번에 복사할 수 있습니다. 복사 권한이 차단되면 표시된 텍스트를 직접 선택해 복사하세요. 최근 20세트는 이 브라우저에 저장되며 기록 삭제로 지울 수 있습니다."
+  ],
+  en: [
+    "Choose 1–5 consecutive sets. Each set starts with a fresh, independent mix. The five-set maximum is a tool setting, not a lottery purchase limit.",
+    "Copy a finished set individually or copy the entire batch. If clipboard access is blocked, select and copy the displayed text manually. The latest 20 sets stay in this browser and can be removed with Clear history."
+  ],
+  "zh-hans": [
+    "可选择连续抽取1至5组，每组都会独立重新混合小球。最多5组是本工具的设置，不代表彩票购买上限。",
+    "完成后可单独复制一组，也可复制本次全部结果。若剪贴板权限被阻止，请手动选中显示的文本进行复制。最近20组保存在此浏览器中，可通过清除记录删除。"
+  ],
+  ja: [
+    "連続抽出は1〜5組から選べます。各組でボールを混ぜ直し、独立して抽出します。最大5組はこのツールの設定で、宝くじの購入上限ではありません。",
+    "完了した組を個別にコピーするか、今回の結果をまとめてコピーできます。クリップボードが許可されない場合は、表示されたテキストを選択してコピーしてください。直近20組はこのブラウザーに保存され、履歴の削除で消去できます。"
+  ],
+  ru: [
+    "Выберите от 1 до 5 последовательных наборов. Перед каждым набором шары перемешиваются заново и независимо. Максимум 5 наборов — настройка инструмента, а не лимит покупки лотерейных билетов.",
+    "Копируйте готовый набор отдельно или всю серию сразу. Если доступ к буферу обмена запрещён, выделите показанный текст и скопируйте вручную. Последние 20 наборов сохраняются в этом браузере; их можно удалить кнопкой очистки истории."
+  ],
+  hi: [
+    "लगातार 1 से 5 सेट चुनें। हर सेट के लिए गेंदें नए सिरे से स्वतंत्र रूप से मिलाई जाती हैं। अधिकतम 5 सेट इस टूल की सेटिंग है, लॉटरी खरीदने की सीमा नहीं।",
+    "पूरा हुआ सेट अलग से या सभी सेट एक साथ कॉपी करें। क्लिपबोर्ड की अनुमति न मिले तो दिखाए गए टेक्स्ट को चुनकर स्वयं कॉपी करें। पिछले 20 सेट इसी ब्राउज़र में सहेजे जाते हैं और इतिहास मिटाने के विकल्प से हटाए जा सकते हैं।"
+  ]
+};
+for (const [lang, [batchGuide, copyGuide]] of Object.entries(practicalGuides)) {
+  Object.assign(translations[lang], { batchGuide, copyGuide });
+}
+
+const contactLabels = {ko: "문의하기", en: "Contact", "zh-hans": "联系我们", ja: "お問い合わせ", ru: "Связаться", hi: "संपर्क करें"};
+for (const [lang, contact] of Object.entries(contactLabels)) translations[lang].contact = contact;

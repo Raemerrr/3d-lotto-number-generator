@@ -70,3 +70,9 @@ SITE_URL=https://your-domain.example/ npm run dev
 [출시 체크리스트](LAUNCH_CHECKLIST.md)에서 운영자 작업과 구현 상태를 확인하세요. 광고/분석 스크립트, 계정 ID, ads.txt를 임의로 넣지 않았습니다. 다국어 페이지와 게임 선택만으로 검색 노출이나 AdSense 승인이 보장되지는 않습니다.
 
 MIT License · RM
+
+## 공개 사이트 재검증
+
+`python3 scripts/check-live.py` (Python 3 및 curl 필요). 공개 HTTP/메타데이터를 검사하고 `artifacts/live-audit.json`에 결과를 저장합니다. 계정 내부 색인/광고 승인 상태는 확인하지 않습니다.
+
+[AdSense 준비도 및 기존 블로그 비교](ADSENSE_READINESS_REVIEW.md)에서 구현, 운영 반영, 사용자 선행 항목을 구분합니다.
