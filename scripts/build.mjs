@@ -1,5 +1,6 @@
 import { build } from "esbuild";
 import { mkdir, rm, readFile, writeFile, cp } from "node:fs/promises";
+import { AD_CLIENT, AD_SLOT } from "../src/ads.js";
 import { games, gameRule } from "../src/games.js";
 import { translations, languages, formatSetCount } from "../src/i18n.js";
 if (process.env.VERCEL && !process.env.SITE_URL)
@@ -15,6 +16,10 @@ if (!["https:", "http:"].includes(site.protocol) || site.search || site.hash)
     "SITE_URL must be an absolute site URL without query or hash",
   );
 if (!site.pathname.endsWith("/")) site.pathname += "/";
+const adMode = process.env.ADS_MODE || "off";
+if (!["off", "preview", "live"].includes(adMode)) throw new Error("Invalid ADS_MODE");
+if (adMode === "live" && process.env.ADS_LIVE_READY !== "true")
+  throw new Error("Live ads require ADS_LIVE_READY=true after approval, Auto ads off and CMP/privacy review");
 const base = site.pathname;
 const escape = (text) =>
   String(text).replace(
@@ -108,7 +113,18 @@ for (const lang of ["root", ...Object.keys(languages)]) {
       (n) => `<option value="${n}">${escape(formatSetCount(key, n))}</option>`,
     )
     .join("");
+  const adSection = root || adMode === "off" ? "" :
+    `<aside id="guide-ad" class="guide-ad" aria-label="${escape(t.adLabel)}" data-mode="${adMode}" data-site="${escape(site.href)}"><p class="ad-label">${escape(t.adLabel)}</p>${adMode === "preview"
+      ? `<div class="ad-preview">${escape(t.adPreview)}</div>`
+      : `<ins class="adsbygoogle" style="display:block" data-ad-client="${AD_CLIENT}" data-ad-slot="${AD_SLOT}" data-ad-format="auto" data-full-width-responsive="true"></ins>`}</aside>`;
+  if (adMode === "live") {
+    plain.privacyText = escape(t.adPrivacy);
+    for (const url of ["https://myadcenter.google.com/", "https://www.aboutads.info/choices/"])
+      plain.privacyText = plain.privacyText.replace(url, `<a href="${url}">${url}</a>`);
+    plain.privacyText += ' <a href="https://policies.google.com/technologies/partner-sites">Google Privacy</a>';
+  }
   const data = {
+    adSection,
     ...plain,
     gameOptions,
     batchOptions,

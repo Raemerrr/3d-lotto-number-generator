@@ -21,6 +21,8 @@ jobs:
       - run: npm ci
       - run: npm run check
         env:
+          ADS_MODE: ${{ github.event_name == 'pull_request' && 'off' || vars.ADS_MODE || 'off' }}
+          ADS_LIVE_READY: ${{ vars.ADS_LIVE_READY || 'false' }}
           SITE_URL: ${{ vars.SITE_URL || 'https://raemerrr.github.io/3d-lotto-number-generator/' }}
       - uses: actions/upload-pages-artifact@v3
         with:
